@@ -143,12 +143,11 @@ def _metrics(actual, pred) -> dict:
 
 def _shap_importance(model, X: pd.DataFrame):
     try:
-        import shap
-        sample = X.sample(min(200, len(X)), random_state=0)
-        with warnings.catch_warnings():
-            warnings.simplefilter("ignore")
-            values = shap.TreeExplainer(model).shap_values(sample)
-        importance = np.abs(values).mean(axis=0)
+        # XGBoost's built-in TreeSHAP (pred_contribs) gives the same exact SHAP values
+        # as the `shap` package without importing numba/llvmlite (~200 MB of RAM).
+        from xgboost import DMatrix
+        contribs = model.get_booster().predict(DMatrix(X), pred_contribs=True)
+        importance = np.abs(contribs[:, :-1]).mean(axis=0)   # last column is the bias term
         method = "SHAP (mean |impact|)"
     except Exception:
         importance = model.feature_importances_
