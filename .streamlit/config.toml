@@ -1,0 +1,15 @@
+# Lumi theme — soft, warm, and clean (cute but still credible for a dashboard).
+[theme]
+primaryColor = "#E8497B"
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#FDF2F6"
+textColor = "#2B2B33"
+font = "sans serif"
+
+[server]
+headless = true
+maxUploadSize = 50          # MB — plenty for a sales CSV, keeps memory sane
+enableXsrfProtection = true
+
+[browser]
+gatherUsageStats = false
