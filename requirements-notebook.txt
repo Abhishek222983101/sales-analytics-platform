@@ -1,0 +1,12 @@
+# Notebook-only dependencies (Colab already has everything except mlxtend, which the notebook installs itself).
+-r requirements.txt
+mlxtend>=0.23
+seaborn>=0.13
+matplotlib>=3.8
+lxml>=5
+beautifulsoup4>=4.12
+html5lib>=1.1
+requests>=2.31
+nbformat>=5.9
+nbconvert>=7.16
+ipykernel>=6.29

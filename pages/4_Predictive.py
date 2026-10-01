@@ -41,7 +41,8 @@ sar_lo = rep.sarima.future_lower[:h] if rep.sarima.future_lower is not None else
 sar_hi = rep.sarima.future_upper[:h] if rep.sarima.future_upper is not None else None
 
 winner_f = xgb_f if rep.winner == "XGBoost" else sar_f
-recent = float(rep.series.iloc[-h:].sum())
+# Compare with the SAME months a year earlier — comparing with the preceding months would just show seasonality.
+recent = float(rep.series.reindex(fut_idx - pd.DateOffset(years=1)).sum())
 proj = float(np.sum(winner_f))
 delta = (proj - recent) / recent * 100 if recent > 0 else float("nan")
 
@@ -50,7 +51,7 @@ c1, c2, c3 = st.columns(3)
 c1.metric("Best model", rep.winner, help="Chosen by lowest backtest RMSE.")
 c2.metric(f"{rep.winner} error (MAPE)", f"{rep.winner_result.metrics['mape']:.1f}%")
 c3.metric(f"Projected next {h} months", f"${proj:,.0f}",
-          delta=f"{delta:+.1f}% vs prior {h}mo")
+          delta=f"{delta:+.1f}% vs same months last year")
 st.divider()
 
 # --- forecast chart --------------------------------------------------------
