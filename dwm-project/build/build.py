@@ -1,7 +1,7 @@
 """Build + execute the DWM Colab notebook.
 
-Run from the project root:   .venv/bin/python notebooks/_build/build.py
-Produces notebooks/DWM_Sales_Analytics.ipynb with all outputs embedded, so it can be
+Run from the project root:   .venv/bin/python dwm-project/build/build.py
+Produces dwm-project/DWM_Sales_Analytics.ipynb with all outputs embedded, so it can be
 read straight away and re-run top-to-bottom in Google Colab.
 """
 import io

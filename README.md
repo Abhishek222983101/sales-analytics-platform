@@ -1,87 +1,66 @@
-# 💛 Lumi — Intelligent Sales Analytics Platform
+# Sales Analytics — DWM Course Project + Live Web App
 
-A gentle, self-service web app that takes any sales CSV and walks a non-technical
-user through all four analytics layers — **Descriptive → Diagnostic → Predictive →
-Prescriptive** — in one interactive dashboard, ending with an AI that turns the
-models' output into ranked, **evidence-cited** recommendations.
+Data Warehousing & Mining project on the **Superstore Sales** dataset
+([Kaggle](https://www.kaggle.com/datasets/rohitsahoo/sales-forecasting) · 9,800 order lines · 2015–2018).
 
-Final-year prototype · dataset: [Superstore Sales (Kaggle)](https://www.kaggle.com/datasets/rohitsahoo/sales-forecasting) · single dataset, finance/revenue framing.
-
-## ✨ The one-line innovation
-An LLM prescriptive layer that reasons over the **combined** output of all four
-models (forecast delta + anomaly + segment + SHAP driver, assembled into one
-`InsightJSON`) and emits each recommendation with a traceable "why" — *explainable
-recommendations, not just explainable predictions*. It works **with no API key**
-(deterministic rule-based actions); a Groq/OpenAI key adds a warm written summary
-and free-form "Ask your data" chat.
-
-## What each layer does
-| Layer | Answers | How |
+| | What | Where |
 |---|---|---|
-| 🌸 Descriptive | What happened? | Revenue KPIs, trend, breakdowns, Pareto, cross-filtering |
-| 🔍 Diagnostic | Why? | RFM → KMeans segments (Champions…Lost), IsolationForest anomalies |
-| 🔮 Predictive | What's next? | XGBoost vs SARIMA monthly forecast, backtest, what-if, SHAP |
-| 💡 Prescriptive | What to do? | Ranked, evidence-cited actions + optional LLM summary |
-| 💬 Ask your data | Anything | Grounded LLM chat over aggregates (no code execution) |
+| 📓 **Main deliverable** | A single Colab notebook: web scraping, pre-processing, star schema + OLAP, EDA, classification, regression, clustering, Apriori | [`dwm-project/`](./dwm-project) |
+| 🌐 **Bonus** | "Lumi" — the same ideas as a live, interactive web app with AI-written recommendations | **https://lumi-sales-analytics.onrender.com** *(free hosting — first load after idle can take ~1 minute)* |
 
-## Stack
-Streamlit · pandas · Plotly · scikit-learn · XGBoost · statsmodels (SARIMA) · SHAP ·
-Groq (`openai/gpt-oss-120b`) with a rule-based fallback. Python 3.11.
-
-## Project structure
+## Repository map
 ```
-app.py                 landing page
-pages/                 one Streamlit page per layer (1_Upload … 6_Ask_Your_Data)
-core/                  pure-Python services (no Streamlit — unit-tested)
-  schema_mapper.py     auto-map any CSV → canonical schema
-  ingestion.py         load / validate / clean
-  descriptive.py       KPIs, series, breakdowns, Pareto
-  forecasting.py       XGBoost + SARIMA + SHAP
-  diagnostic.py        RFM/KMeans + IsolationForest
-  insight_bus.py       assembles the InsightJSON spine
-  prescriptive.py      evidence-cited actions + LLM summary
-  nlp.py               Ask-your-data (grounded, safe)
-  llm.py               provider-agnostic adapter + fallback
-data/                  bundled Superstore sample
-tests/                 48 tests (unit + headless render + security)
+dwm-project/        ← THE GRADED WORK: notebook (.ipynb + .html), its README and build scripts
+docs/               ← design notes: SYSTEM-ARCHITECTURE.md, BUILD-PLAN.md, DATA_PROFILE.md
+app.py, pages/      ← the web app (Streamlit); must stay at the repo root for deployment
+core/               ← pure-Python services behind the app (unit-tested, no Streamlit)
+tests/              ← 48 tests: unit + headless page rendering + security
+data/               ← the bundled Superstore sample
+scripts/            ← helper scripts (data profiling)
+render.yaml, requirements.txt, runtime.txt, .streamlit/   ← deployment config
 ```
 
-## Run locally
+## 📓 The DWM notebook
+Start with **[`dwm-project/README.md`](./dwm-project/README.md)** — it lists every section, how to open the notebook in Google Colab,
+and the headline results. The notebook already contains its outputs, so it can also be read straight from
+`dwm-project/DWM_Sales_Analytics.html` in any browser.
+
+## 🌐 The web app (Lumi)
+A gentle, self-service app that takes any sales CSV and walks through **Descriptive → Diagnostic → Predictive → Prescriptive**
+analytics, ending with ranked recommendations that each cite the finding behind them (they work with no API key; a Groq key adds
+a written summary and free-form "Ask your data" chat).
+
+| Page | Does |
+|---|---|
+| 📄 Upload | Auto-maps columns of any sales CSV, or loads the demo data |
+| 🌸 Descriptive | KPIs, trends, breakdowns, Pareto, cross-filtering |
+| 🔍 Diagnostic | RFM → K-Means customer segments, Isolation-Forest anomalies |
+| 🔮 Predictive | XGBoost vs SARIMA monthly forecast, backtest, what-if |
+| 💡 Prescriptive | Ranked, evidence-cited actions + optional AI summary |
+| 💬 Ask your data | Chat grounded on pre-computed aggregates (no code execution) |
+
+Stack: Streamlit · pandas · Plotly · scikit-learn · XGBoost · statsmodels · Groq (`openai/gpt-oss-120b`) with a rule-based fallback. Python 3.11.
+
+### Run the app locally
 ```bash
 python3.11 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-# optional: echo 'LLM_API_KEY="gsk_..."' >> .streamlit/secrets.toml   (git-ignored)
+# optional: add LLM_API_KEY="gsk_..." to .streamlit/secrets.toml (git-ignored)
 streamlit run app.py
 ```
-Then click **✨ Use demo data** — no upload needed to explore.
 
-## Test
+### Test
 ```bash
 pip install -r requirements-dev.txt
-pytest -q          # 48 tests, all green
+pytest -q          # 48 tests
 ```
 
-## Deploy
+### Deploy
+Deployed on **Render** (free plan) from `render.yaml`; every push to `main` redeploys. Set `LLM_API_KEY` as a secret in the Render
+dashboard. The free plan has 512 MB RAM — the Predictive page peaks around 475 MB, so avoid adding heavy dependencies (`shap` was removed for this reason).
+Streamlit Community Cloud also works (1 GB). Vercel cannot host this app: it is a long-running Python/ML process.
 
-**Recommended — Streamlit Community Cloud (free, 1 GB):**
-1. Push this repo to GitHub.
-2. Go to [share.streamlit.io](https://share.streamlit.io) → **New app** → pick the repo, branch, and `app.py`.
-3. In **Advanced → Secrets**, paste:
-   ```toml
-   LLM_PROVIDER = "groq"
-   LLM_MODEL = "openai/gpt-oss-120b"
-   LLM_API_KEY = "gsk_..."
-   ```
-4. Deploy. Every `git push` redeploys.
-
-**Alternative — Render** (`render.yaml` blueprint is included): Render dashboard →
-**New → Blueprint** → pick this repo → set `LLM_API_KEY` as a secret. Note the free
-plan's 512 MB RAM is tight for this ML stack; prefer Streamlit Cloud if it OOMs.
-
-> Not Vercel: it can't run a long-lived Python/ML process (Streamlit + XGBoost +
-> SARIMA + SHAP). Vercel is for JS front-ends only.
-
-## Notes for the report
-See `SYSTEM-ARCHITECTURE.md` (design + the InsightJSON contract + synopsis edits)
-and `BUILD-PLAN.md` (the phase-by-phase build). `DATA_PROFILE.md` documents the
-dataset and confirms the revenue-only constraint.
+## Docs
+* [`docs/SYSTEM-ARCHITECTURE.md`](./docs/SYSTEM-ARCHITECTURE.md) — design, the InsightJSON contract, deployment options
+* [`docs/BUILD-PLAN.md`](./docs/BUILD-PLAN.md) — the phase-by-phase build plan for the app
+* [`docs/DATA_PROFILE.md`](./docs/DATA_PROFILE.md) — dataset profile; confirms `Sales` is the only numeric measure

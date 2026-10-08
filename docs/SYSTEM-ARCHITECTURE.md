@@ -209,13 +209,12 @@ sales-analytics-platform/
 ├── .streamlit/
 │   ├── config.toml             # theme (finance palette)
 │   └── secrets.toml            # GITIGNORED — LLM keys
-├── DATA_PROFILE.md             # committed df.info() output (Phase 0)
 ├── requirements.txt
 ├── runtime.txt                 # python-3.11
 ├── Dockerfile                  # only if deploying to HF Spaces / Render
 ├── .gitignore
-├── SYSTEM-ARCHITECTURE.md      # this file
-├── BUILD-PLAN.md
+├── docs/                       # SYSTEM-ARCHITECTURE.md (this file), BUILD-PLAN.md, DATA_PROFILE.md
+├── dwm-project/                # the DWM course notebook (graded work)
 └── README.md
 ```
 

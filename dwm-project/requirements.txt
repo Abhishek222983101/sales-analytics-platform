@@ -1,5 +1,5 @@
 # Notebook-only dependencies (Colab already has everything except mlxtend, which the notebook installs itself).
--r requirements.txt
+-r ../requirements.txt
 mlxtend>=0.23
 seaborn>=0.13
 matplotlib>=3.8
