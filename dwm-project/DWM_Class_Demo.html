@@ -7796,7 +7796,7 @@ a.anchor-link {
 <!-- End of mermaid configuration --></head>
 <body class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
 <main>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a294477d">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=909aba34">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7815,7 +7815,7 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=f3109928">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=3cf84a02">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7874,7 +7874,7 @@ a.anchor-link {
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b8df1c09">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a03162e5">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7884,7 +7884,7 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=f69cf811">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=184762d0">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8218,7 +8218,7 @@ After removing 1 repeated row: 9,799 rows.  (Only one column, Sales, is a money 
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=00a76438">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=5e238c67">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8233,7 +8233,7 @@ After removing 1 repeated row: 9,799 rows.  (Only one column, Sales, is a money 
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=2f1b850b">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=9aaba288">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8386,7 +8386,250 @@ THE CLASS COLUMN next to real rows (Sales is on the left, the class label on the
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=785d1248">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b20bf541">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="Labelled-data-=-clues-(features)-+-a-label">Labelled data = clues (features) + a label<a class="anchor-link" href="#Labelled-data-=-clues-(features)-+-a-label">¶</a></h3><p>This is the same idea as an <strong>e-mail spam filter</strong> or a <strong>movie vs TV-show</strong> classifier:</p>
+<table>
+<thead>
+<tr>
+<th>Idea</th>
+<th>E-mail spam filter</th>
+<th>Movie vs TV show</th>
+<th><strong>Our data</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>One row is…</td>
+<td>one e-mail</td>
+<td>one title</td>
+<td><strong>one order line</strong></td>
+</tr>
+<tr>
+<td><strong>Features</strong> (the clues)</td>
+<td>words, sender, length</td>
+<td>length, genre, year</td>
+<td><strong>product, customer type, region, shipping, date</strong></td>
+</tr>
+<tr>
+<td><strong>Label</strong> (the class)</td>
+<td>spam / not spam</td>
+<td>movie / TV show</td>
+<td><strong>high-value / standard</strong></td>
+</tr>
+<tr>
+<td><strong>Labelled data</strong></td>
+<td>e-mails already marked spam or not</td>
+<td>titles already marked movie or show</td>
+<td><strong>order lines already marked high-value or standard</strong></td>
+</tr>
+<tr>
+<td><strong>Training</strong></td>
+<td>learn from labelled e-mails</td>
+<td>learn from labelled titles</td>
+<td><strong>learn from 80% of the labelled orders</strong></td>
+</tr>
+<tr>
+<td><strong>Testing</strong></td>
+<td>check on e-mails it hasn't seen</td>
+<td>check on titles it hasn't seen</td>
+<td><strong>check on the other 20%</strong></td>
+</tr>
+<tr>
+<td><strong>Prediction</strong></td>
+<td>new e-mail → spam?</td>
+<td>new title → movie?</td>
+<td><strong>new order → high-value?</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=28f6ca62">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">clues</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"Category"</span><span class="p">,</span> <span class="s2">"Sub-Category"</span><span class="p">,</span> <span class="s2">"Segment"</span><span class="p">,</span> <span class="s2">"Region"</span><span class="p">,</span> <span class="s2">"Ship Mode"</span><span class="p">,</span> <span class="s2">"order_month"</span><span class="p">,</span> <span class="s2">"order_year"</span><span class="p">,</span> <span class="s2">"ship_days"</span><span class="p">]</span>
+<span class="n">labelled</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">clues</span> <span class="o">+</span> <span class="p">[</span><span class="s2">"class_name"</span><span class="p">]]</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">"class_name"</span><span class="p">:</span> <span class="s2">"LABEL"</span><span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"LABELLED DATA — the clues (features) on the left, the LABEL on the right. All </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">labelled</span><span class="p">)</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> rows have a label:</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">labelled</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">11</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">How many rows carry each label:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">labelled</span><span class="p">[</span><span class="s2">"LABEL"</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">to_string</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>LABELLED DATA — the clues (features) on the left, the LABEL on the right. All 9,799 rows have a label:
+
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>Category</th>
+<th>Sub-Category</th>
+<th>Segment</th>
+<th>Region</th>
+<th>Ship Mode</th>
+<th>order_month</th>
+<th>order_year</th>
+<th>ship_days</th>
+<th>LABEL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>2760</th>
+<td>Office Supplies</td>
+<td>Paper</td>
+<td>Home Office</td>
+<td>West</td>
+<td>First Class</td>
+<td>5</td>
+<td>2015</td>
+<td>3</td>
+<td>standard</td>
+</tr>
+<tr>
+<th>5481</th>
+<td>Technology</td>
+<td>Accessories</td>
+<td>Corporate</td>
+<td>West</td>
+<td>Standard Class</td>
+<td>10</td>
+<td>2018</td>
+<td>6</td>
+<td>high-value</td>
+</tr>
+<tr>
+<th>5693</th>
+<td>Furniture</td>
+<td>Chairs</td>
+<td>Corporate</td>
+<td>East</td>
+<td>Standard Class</td>
+<td>12</td>
+<td>2016</td>
+<td>6</td>
+<td>high-value</td>
+</tr>
+<tr>
+<th>905</th>
+<td>Office Supplies</td>
+<td>Paper</td>
+<td>Consumer</td>
+<td>West</td>
+<td>Standard Class</td>
+<td>4</td>
+<td>2017</td>
+<td>4</td>
+<td>standard</td>
+</tr>
+<tr>
+<th>4722</th>
+<td>Office Supplies</td>
+<td>Labels</td>
+<td>Consumer</td>
+<td>South</td>
+<td>Same Day</td>
+<td>5</td>
+<td>2017</td>
+<td>0</td>
+<td>standard</td>
+</tr>
+<tr>
+<th>9188</th>
+<td>Office Supplies</td>
+<td>Storage</td>
+<td>Home Office</td>
+<td>East</td>
+<td>Standard Class</td>
+<td>8</td>
+<td>2016</td>
+<td>4</td>
+<td>high-value</td>
+</tr>
+<tr>
+<th>5838</th>
+<td>Office Supplies</td>
+<td>Paper</td>
+<td>Home Office</td>
+<td>South</td>
+<td>Second Class</td>
+<td>9</td>
+<td>2016</td>
+<td>4</td>
+<td>standard</td>
+</tr>
+<tr>
+<th>8339</th>
+<td>Office Supplies</td>
+<td>Paper</td>
+<td>Consumer</td>
+<td>South</td>
+<td>Standard Class</td>
+<td>11</td>
+<td>2015</td>
+<td>6</td>
+<td>standard</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>
+How many rows carry each label:
+LABEL
+standard      7349
+high-value    2450
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=dec57f4a">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8397,12 +8640,12 @@ THE CLASS COLUMN next to real rows (Sales is on the left, the class label on the
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=4fc4c58e">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=a839165d">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">CAT</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"Category"</span><span class="p">,</span> <span class="s2">"Sub-Category"</span><span class="p">,</span> <span class="s2">"Segment"</span><span class="p">,</span> <span class="s2">"Region"</span><span class="p">,</span> <span class="s2">"Ship Mode"</span><span class="p">]</span>
@@ -8488,7 +8731,7 @@ high-value (1)      0.536     0.720     0.614       490
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=76e1b6e5">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e3173229">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8499,12 +8742,12 @@ high-value (1)      0.536     0.720     0.614       490
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=1774bc7b">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=d7e06808">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">ex</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">X_test</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="p">[</span><span class="s2">"Row ID"</span><span class="p">,</span> <span class="s2">"Order ID"</span><span class="p">,</span> <span class="s2">"Sub-Category"</span><span class="p">,</span> <span class="s2">"Segment"</span><span class="p">,</span> <span class="s2">"Region"</span><span class="p">,</span> <span class="s2">"Sales"</span><span class="p">]]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -8523,7 +8766,7 @@ high-value (1)      0.536     0.720     0.614       490
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[5]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[6]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div>
 <style scoped="">
@@ -8668,7 +8911,170 @@ high-value (1)      0.536     0.720     0.614       490
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=5634a238">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=dfd915b0">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p><strong>Now the real test, like a spam filter.</strong> Below are orders with the label <strong>hidden</strong> — the model only sees the clues and must guess. Then we reveal the true label.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=333d970b">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">unlabelled</span> <span class="o">=</span> <span class="n">X_test</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">21</span><span class="p">)</span>                        <span class="c1"># orders the model has never seen</span>
+<span class="n">guess_</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">unlabelled</span><span class="p">);</span> <span class="n">conf_</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">unlabelled</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">view</span> <span class="o">=</span> <span class="n">unlabelled</span><span class="p">[[</span><span class="s2">"Sub-Category"</span><span class="p">,</span> <span class="s2">"Segment"</span><span class="p">,</span> <span class="s2">"Region"</span><span class="p">,</span> <span class="s2">"Ship Mode"</span><span class="p">,</span> <span class="s2">"order_month"</span><span class="p">,</span> <span class="s2">"order_year"</span><span class="p">]]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">view</span><span class="p">[</span><span class="s2">"MODEL'S GUESS"</span><span class="p">]</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">guess_</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">"high-value"</span><span class="p">,</span> <span class="s2">"standard"</span><span class="p">)</span>
+<span class="n">view</span><span class="p">[</span><span class="s2">"P(high-value)"</span><span class="p">]</span>  <span class="o">=</span> <span class="n">conf_</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">view</span><span class="p">[</span><span class="s2">"TRUE LABEL (revealed)"</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">y_test</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">unlabelled</span><span class="o">.</span><span class="n">index</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">"high-value"</span><span class="p">,</span> <span class="s2">"standard"</span><span class="p">)</span>
+<span class="n">view</span><span class="p">[</span><span class="s2">"right?"</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">view</span><span class="p">[</span><span class="s2">"MODEL'S GUESS"</span><span class="p">]</span> <span class="o">==</span> <span class="n">view</span><span class="p">[</span><span class="s2">"TRUE LABEL (revealed)"</span><span class="p">],</span> <span class="s2">"✔ yes"</span><span class="p">,</span> <span class="s2">"✘ no"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"The model saw ONLY the clues below (no price, no label):"</span><span class="p">)</span>
+<span class="n">view</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>The model saw ONLY the clues below (no price, no label):
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[7]:</div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>Sub-Category</th>
+<th>Segment</th>
+<th>Region</th>
+<th>Ship Mode</th>
+<th>order_month</th>
+<th>order_year</th>
+<th>MODEL'S GUESS</th>
+<th>P(high-value)</th>
+<th>TRUE LABEL (revealed)</th>
+<th>right?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>1496</th>
+<td>Storage</td>
+<td>Consumer</td>
+<td>Central</td>
+<td>Standard Class</td>
+<td>9</td>
+<td>2018</td>
+<td>high-value</td>
+<td>0.67</td>
+<td>standard</td>
+<td>✘ no</td>
+</tr>
+<tr>
+<th>857</th>
+<td>Storage</td>
+<td>Consumer</td>
+<td>East</td>
+<td>Standard Class</td>
+<td>8</td>
+<td>2015</td>
+<td>high-value</td>
+<td>0.68</td>
+<td>standard</td>
+<td>✘ no</td>
+</tr>
+<tr>
+<th>7990</th>
+<td>Binders</td>
+<td>Consumer</td>
+<td>South</td>
+<td>First Class</td>
+<td>6</td>
+<td>2017</td>
+<td>standard</td>
+<td>0.11</td>
+<td>standard</td>
+<td>✔ yes</td>
+</tr>
+<tr>
+<th>8735</th>
+<td>Storage</td>
+<td>Corporate</td>
+<td>Central</td>
+<td>Standard Class</td>
+<td>9</td>
+<td>2017</td>
+<td>high-value</td>
+<td>0.76</td>
+<td>high-value</td>
+<td>✔ yes</td>
+</tr>
+<tr>
+<th>4569</th>
+<td>Art</td>
+<td>Home Office</td>
+<td>Central</td>
+<td>Second Class</td>
+<td>5</td>
+<td>2016</td>
+<td>standard</td>
+<td>0.02</td>
+<td>standard</td>
+<td>✔ yes</td>
+</tr>
+<tr>
+<th>3775</th>
+<td>Accessories</td>
+<td>Consumer</td>
+<td>South</td>
+<td>Second Class</td>
+<td>4</td>
+<td>2015</td>
+<td>high-value</td>
+<td>0.61</td>
+<td>high-value</td>
+<td>✔ yes</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f413c236">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8678,12 +9084,12 @@ high-value (1)      0.536     0.720     0.614       490
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=535f2d92">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=14ae9d8b">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">show_row</span><span class="p">(</span><span class="n">row_id</span><span class="p">):</span>
@@ -8705,12 +9111,12 @@ high-value (1)      0.536     0.720     0.614       490
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=bda1ca3c">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=93dcbc25">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1">#@title 🔎 Look up any row — type a Row ID, then press ▶ { display-mode: "form" }</span>
@@ -8876,7 +9282,7 @@ THE MODEL SAYS (it is never shown Sales):  high-value — probability of high-va
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a0ee6337">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=839b17a2">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8886,12 +9292,12 @@ THE MODEL SAYS (it is never shown Sales):  high-value — probability of high-va
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=3d802230">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=731b0cc9">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">sub_to_cat</span>   <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="s2">"Sub-Category"</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">"Sub-Category"</span><span class="p">)[</span><span class="s2">"Category"</span><span class="p">]</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
@@ -8919,12 +9325,12 @@ THE MODEL SAYS (it is never shown Sales):  high-value — probability of high-va
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=7ba2c5d1">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=a3f005d1">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1">#@title 🧪 Predict a NEW order — change any input, then press ▶ { display-mode: "form" }</span>
@@ -8973,7 +9379,7 @@ MODEL SAYS: HIGH-VALUE — chance of high-value = 76%   (high-value = a sale of 
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=c45c82e2">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=964eed80">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8983,12 +9389,12 @@ MODEL SAYS: HIGH-VALUE — chance of high-value = 76%   (high-value = a sale of 
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=ec302aaa">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=94a87670">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">try_cut_off</span><span class="p">(</span><span class="n">cut</span><span class="p">):</span>
@@ -9010,12 +9416,12 @@ MODEL SAYS: HIGH-VALUE — chance of high-value = 76%   (high-value = a sale of 
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=8ea09df8">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=dea5ccaf">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1">#@title 🎚️ Change the CLASS definition — type a dollar amount, then press ▶ { display-mode: "form" }</span>
@@ -9095,7 +9501,7 @@ Retrained model:  accuracy 77.4% · precision 0.54 · recall 0.72 · F1 0.61 · 
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=31312be6">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b7ad6de4">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9106,12 +9512,12 @@ Retrained model:  accuracy 77.4% · precision 0.54 · recall 0.72 · F1 0.61 · 
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=2f157974">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=209657fa">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">GROUPS</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"Category"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"Furniture"</span><span class="p">,</span> <span class="s2">"Office Supplies"</span><span class="p">,</span> <span class="s2">"Technology"</span><span class="p">],</span> <span class="s2">"Segment"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"Consumer"</span><span class="p">,</span> <span class="s2">"Corporate"</span><span class="p">,</span> <span class="s2">"Home Office"</span><span class="p">],</span>
@@ -9159,12 +9565,12 @@ Retrained model:  accuracy 77.4% · precision 0.54 · recall 0.72 · F1 0.61 · 
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=1a3e4af8">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=e268b863">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1">#@title ⚖️ Compare ANY two groups — pick two values from the same list, then press ▶ { display-mode: "form" }</span>
@@ -9275,7 +9681,7 @@ Step 0 — the rows used: 7,722 of 9,799  (Technology: 1,813 rows, Office Suppli
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e3d51efa">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=26cce786">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>

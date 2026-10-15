@@ -136,6 +136,29 @@ print("THE CLASS COLUMN next to real rows (Sales is on the left, the class label
 df[["Row ID", "Order ID", "Sub-Category", "Sales", "high_value", "class_name"]].sample(8, random_state=5)
 ''')
 
+md(r'''
+### Labelled data = clues (features) + a label
+This is the same idea as an **e-mail spam filter** or a **movie vs TV-show** classifier:
+
+| Idea | E-mail spam filter | Movie vs TV show | **Our data** |
+|---|---|---|---|
+| One row is… | one e-mail | one title | **one order line** |
+| **Features** (the clues) | words, sender, length | length, genre, year | **product, customer type, region, shipping, date** |
+| **Label** (the class) | spam / not spam | movie / TV show | **high-value / standard** |
+| **Labelled data** | e-mails already marked spam or not | titles already marked movie or show | **order lines already marked high-value or standard** |
+| **Training** | learn from labelled e-mails | learn from labelled titles | **learn from 80% of the labelled orders** |
+| **Testing** | check on e-mails it hasn't seen | check on titles it hasn't seen | **check on the other 20%** |
+| **Prediction** | new e-mail → spam? | new title → movie? | **new order → high-value?** |
+''')
+code(r'''
+clues = ["Category", "Sub-Category", "Segment", "Region", "Ship Mode", "order_month", "order_year", "ship_days"]
+labelled = df[clues + ["class_name"]].rename(columns={"class_name": "LABEL"})
+print(f"LABELLED DATA — the clues (features) on the left, the LABEL on the right. All {len(labelled):,} rows have a label:\n")
+display(labelled.sample(8, random_state=11))
+print("\nHow many rows carry each label:")
+print(labelled["LABEL"].value_counts().to_string())
+''')
+
 # ====================================================================== 3. proof
 md(r'''
 ## 3. The proof — can a model predict the class?
@@ -192,6 +215,21 @@ ex["P(high-value)"] = proba.round(2)
 cases = [("high-value", "high-value", "✔ caught"), ("standard", "standard", "✔ correct"),
          ("standard", "high-value", "✘ false alarm"), ("high-value", "standard", "✘ missed")]
 pd.concat([ex[(ex["actual"] == a) & (ex["model says"] == m)].sample(2, random_state=3).assign(outcome=lab) for a, m, lab in cases]).reset_index(drop=True)
+''')
+
+md(r'''
+**Now the real test, like a spam filter.** Below are orders with the label **hidden** — the model only sees the clues and must guess. Then we reveal the true label.
+''')
+code(r'''
+unlabelled = X_test.sample(6, random_state=21)                        # orders the model has never seen
+guess_ = model.predict(unlabelled); conf_ = model.predict_proba(unlabelled)[:, 1]
+view = unlabelled[["Sub-Category", "Segment", "Region", "Ship Mode", "order_month", "order_year"]].copy()
+view["MODEL'S GUESS"]  = np.where(guess_ == 1, "high-value", "standard")
+view["P(high-value)"]  = conf_.round(2)
+view["TRUE LABEL (revealed)"] = np.where(y_test.loc[unlabelled.index] == 1, "high-value", "standard")
+view["right?"] = np.where(view["MODEL'S GUESS"] == view["TRUE LABEL (revealed)"], "✔ yes", "✘ no")
+print("The model saw ONLY the clues below (no price, no label):")
+view
 ''')
 
 # ====================================================================== 4. row lookup
