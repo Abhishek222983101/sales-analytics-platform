@@ -94,7 +94,10 @@ def show_row(row_id):
 #@title 🔎 Find any row of the dataset — type a Row ID, then press ▶ { display-mode: "form" }
 row_id = 3406  #@param {type:"integer"}
 
-show_row(row_id)
+try:
+    show_row(row_id)
+except NameError:
+    print("⚠️ This cell needs the cells above it to have run first.  Click  Runtime ▸ Run all  (wait until it finishes), then run this cell again.")
 ''')
 
     # ------------------------------------------------------------------ 12.3
@@ -144,7 +147,10 @@ ship_mode = "Standard Class"  #@param ["Same Day", "First Class", "Second Class"
 order_month = 11  #@param {type:"slider", min:1, max:12, step:1}
 order_year = 2018  #@param {type:"slider", min:2015, max:2018, step:1}
 
-predict_new_order(sub_category, segment, state, ship_mode, order_month, order_year)
+try:
+    predict_new_order(sub_category, segment, state, ship_mode, order_month, order_year)
+except NameError:
+    print("⚠️ This cell needs the cells above it to have run first.  Click  Runtime ▸ Run all  (wait until it finishes), then run this cell again.")
 '''.replace("__STATES__", STATES))
 
     # ------------------------------------------------------------------ 12.4
@@ -182,7 +188,10 @@ def try_cut_off(cut):
 #@title 🎚️ Change the CLASS definition — type a dollar amount, then press ▶ { display-mode: "form" }
 cut_off_in_dollars = 210.57  #@param {type:"number"}
 
-try_cut_off(cut_off_in_dollars)
+try:
+    try_cut_off(cut_off_in_dollars)
+except NameError:
+    print("⚠️ This cell needs the cells above it to have run first.  Click  Runtime ▸ Run all  (wait until it finishes), then run this cell again.")
 ''')
     md(r'''
 Several cut-offs side by side (takes a few seconds) — watch "lazy accuracy" climb while recall and F1 fall:
@@ -256,5 +265,8 @@ def compare_groups(a, b):
 group_A = "Technology"  #@param ["Furniture", "Office Supplies", "Technology", "Consumer", "Corporate", "Home Office", "Central", "East", "South", "West"]
 group_B = "Office Supplies"  #@param ["Furniture", "Office Supplies", "Technology", "Consumer", "Corporate", "Home Office", "Central", "East", "South", "West"]
 
-compare_groups(group_A, group_B)
+try:
+    compare_groups(group_A, group_B)
+except NameError:
+    print("⚠️ This cell needs the cells above it to have run first.  Click  Runtime ▸ Run all  (wait until it finishes), then run this cell again.")
 ''')
