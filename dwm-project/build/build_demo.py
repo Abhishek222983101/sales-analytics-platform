@@ -137,6 +137,29 @@ df[["Row ID", "Order ID", "Sub-Category", "Sales", "high_value", "class_name"]].
 ''')
 
 md(r'''
+**See the labelling happen.** First the same rows *before* and *after* the label column is added, then a picture of the dividing line: every sale to the left of it is labelled **standard**, every sale to the right is labelled **high-value**.
+''')
+code(r'''
+before = df[["Row ID", "Sub-Category", "Sales"]].sample(5, random_state=5)
+print("BEFORE labelling — rows as they came in the file (there is no class column):")
+display(before)
+print("\nAFTER labelling — the same rows, with the new class column added on the right (highlighted):")
+after = before.assign(high_value=df.loc[before.index, "high_value"], class_name=df.loc[before.index, "class_name"])
+display(after.style.set_properties(subset=["high_value", "class_name"], **{"background-color": "#FBD4E0", "font-weight": "bold"}))
+
+fig, ax = plt.subplots(figsize=(10.5, 4.4))
+bins = np.logspace(np.log10(df["Sales"].min()), np.log10(df["Sales"].max()), 60)
+ax.hist(df.loc[df["high_value"] == 0, "Sales"], bins=bins, color="#C9C9D6", label=f"standard (class 0): {int((df['high_value'] == 0).sum()):,} rows")
+ax.hist(df.loc[df["high_value"] == 1, "Sales"], bins=bins, color=PALETTE[0], label=f"high-value (class 1): {int(df['high_value'].sum()):,} rows")
+ax.axvline(cut_off, color="#2B2B33", ls="--", lw=2)
+ax.text(cut_off * 1.08, ax.get_ylim()[1] * 0.92, f"cut-off  ${cut_off:,.2f}", fontsize=11, fontweight="bold")
+ax.set_xscale("log")
+ax.set(title="Where the label is decided: left of the line = standard, right of the line = high-value",
+       xlabel="Sale value per row ($, log scale)", ylabel="number of rows")
+ax.legend(frameon=False, loc="upper left"); plt.tight_layout(); plt.show()
+''')
+
+md(r'''
 ### Labelled data = clues (features) + a label
 This is the same idea as an **e-mail spam filter** or a **movie vs TV-show** classifier:
 
