@@ -472,6 +472,142 @@ print(f"1. Total revenue ${clean['Sales'].sum():,.0f} from {clean['Order ID'].nu
 print(f"2. Revenue grew from ${yearly.iloc[0]:,.0f} ({yearly.index[0]}) to ${yearly.iloc[-1]:,.0f} ({yearly.index[-1]}) — about {cagr:.0%} per year.")
 print(f"3. Strong seasonality: November + December alone bring {nov_dec:.0%} of all revenue; best month ever = {best_month:%B %Y}.")
 print(f"4. {best_cat} is the top category; {best_sub} the top sub-category; {best_region} the top region.")
-print(f"5. Customer revenue is concentrated: top 20% of customers = {top20_share:.0%} of revenue.")
+print(f"5. Customer revenue is only moderately concentrated: the top 20% of customers bring {top20_share:.0%} of revenue, and it takes {pct_for_80:.0%} of customers to reach 80% — not the textbook 80/20.")
 print(f"6. Sale size depends on the product, not on timing or shipping (weak numeric correlations).")
+''')
+
+    md(r'''
+### 5.7 Head-to-head comparison — Technology vs Office Supplies
+
+**The question.** The store sells three kinds of products. Pick the two that look most different — **Technology** and **Office Supplies** — and compare them side by side: *do they really behave differently, and does it matter for the business?*
+
+**How we get the comparison** (simple, no machine learning needed):
+1. **Split** the cleaned data in two using the `Category` column. We already know which group every row belongs to, so this is a **comparison**, not clustering (clustering is for when the groups are *unknown* and the algorithm has to find them — we do that for customers in section 8).
+2. **Measure** the same things for both groups: money earned, number of sales, size of a typical sale, share of big sales, growth.
+3. **Test** that the difference is real and not luck.
+
+The same split is a single query on our warehouse (a `JOIN` to `dim_product` and a `GROUP BY category`), which we show too.
+''')
+    md(r'''
+**Step 0 — where the data comes from, and what has happened to it so far.** Every number below traces back to rows of the dataset loaded in section 1. This cell shows the journey and some real rows, so any figure can be checked.
+''')
+    code(r'''
+two = ["Technology", "Office Supplies"]
+cmp = clean[clean["Category"].isin(two)].copy()           # the rows used for the comparison
+
+print("SOURCE FILE :", DATA_URL)
+print(f"1. Downloaded in section 1        : {len(raw):,} rows × {raw.shape[1]} columns   (the raw file)")
+print(f"2. After pre-processing, section 3: {len(clean):,} rows × {clean.shape[1]} columns   (1 duplicate row removed, {clean.shape[1] - raw.shape[1]} helper columns added)")
+print(f"3. Kept only the two groups       : {len(cmp):,} rows = Technology {int((cmp['Category'] == 'Technology').sum()):,} + Office Supplies {int((cmp['Category'] == 'Office Supplies').sum()):,}"
+      f"   (Furniture's {int((clean['Category'] == 'Furniture').sum()):,} rows are set aside for this comparison)")
+
+cols = ["Row ID", "Order ID", "Order Date", "Category", "Sub-Category", "Product Name", "Sales"]
+print("\nREAL ROWS from the dataset — 3 Technology lines and 3 Office Supplies lines (find any of them in the file by its Row ID):")
+display(pd.concat([cmp[cmp["Category"] == "Technology"].sample(3, random_state=1),
+                   cmp[cmp["Category"] == "Office Supplies"].sample(3, random_state=1)])[cols])
+
+proof = cmp.groupby("Category")["Sales"].agg(order_lines="count", total_sales="sum", average="mean", median="median")
+print("\nTHE RAW MATERIAL OF THE COMPARISON — the Sales column, grouped by Category:")
+display(proof.round(2))
+tl, tt = int(proof.loc["Technology", "order_lines"]), proof.loc["Technology", "total_sales"]
+print(f"Example: Technology average sale = total ÷ lines = ${tt:,.2f} ÷ {tl:,} = ${tt / tl:,.2f}")
+''')
+    code(r'''
+cut_off = clean["Sales"].quantile(0.75)                    # the same "high-value" line that section 6 uses
+cmp["high_value"] = cmp["Sales"] >= cut_off
+
+def head_to_head(d):
+    yearly = d.groupby("order_year")["Sales"].sum()
+    return pd.Series({
+        "Total revenue ($)":                   d["Sales"].sum(),
+        "Share of all revenue (%)":            100 * d["Sales"].sum() / clean["Sales"].sum(),
+        "Order lines sold":                    len(d),
+        "Average sale per line ($)":           d["Sales"].mean(),
+        "Typical (median) sale per line ($)":  d["Sales"].median(),
+        "High-value lines (%)":                100 * d["high_value"].mean(),
+        "Revenue per order containing it ($)": d["Sales"].sum() / d["Order ID"].nunique(),
+        "Growth 2015 → 2018 (%)":              100 * (yearly[2018] / yearly[2015] - 1),
+    })
+
+h2h = pd.DataFrame({c: head_to_head(cmp[cmp["Category"] == c]) for c in two})
+fmt = {"Total revenue ($)": "${:,.0f}", "Share of all revenue (%)": "{:.1f}%", "Order lines sold": "{:,.0f}",
+       "Average sale per line ($)": "${:,.0f}", "Typical (median) sale per line ($)": "${:,.0f}",
+       "High-value lines (%)": "{:.1f}%", "Revenue per order containing it ($)": "${:,.0f}", "Growth 2015 → 2018 (%)": "{:+.0f}%"}
+pretty = h2h.astype(object).copy()
+for row, f in fmt.items():
+    pretty.loc[row] = [f.format(v) for v in h2h.loc[row]]
+pretty
+''')
+    code(r'''
+# The same comparison straight from the data warehouse (star schema) with one SQL query
+q("""SELECT p.category,
+            COUNT(*)               AS order_lines,
+            ROUND(SUM(f.sales), 0) AS revenue,
+            ROUND(AVG(f.sales), 1) AS avg_sale_per_line
+     FROM fact_sales f JOIN dim_product p ON f.product_key = p.product_key
+     WHERE p.category IN ('Technology', 'Office Supplies')
+     GROUP BY p.category""")
+''')
+    code(r'''
+colors = [PALETTE[1], PALETTE[0]]                          # Technology = purple, Office Supplies = pink
+panels = [("Total revenue", "Total revenue ($)", lambda v: f"${v/1000:,.0f}k"),
+          ("Number of order lines", "Order lines sold", lambda v: f"{v:,.0f}"),
+          ("Average sale per line", "Average sale per line ($)", lambda v: f"${v:,.0f}"),
+          ("% of lines that are high-value", "High-value lines (%)", lambda v: f"{v:.0f}%")]
+fig, axes = plt.subplots(1, 4, figsize=(15, 3.9))
+for ax, (title, row, label) in zip(axes, panels):
+    vals = h2h.loc[row, two]
+    bars = ax.bar(two, vals.values, color=colors, width=0.6)
+    ax.bar_label(bars, labels=[label(v) for v in vals.values], padding=3, fontsize=11, fontweight="bold")
+    ax.set_title(title, fontsize=11.5); ax.set_ylim(0, vals.max() * 1.22)
+    ax.set_yticks([]); ax.grid(False); ax.spines["left"].set_visible(False); ax.tick_params(axis="x", labelsize=10)
+plt.suptitle("Technology vs Office Supplies — the same store, two very different kinds of sale", fontweight="bold", y=1.04)
+plt.tight_layout(); plt.show()
+''')
+    code(r'''
+fig, ax = plt.subplots(figsize=(10.5, 4.2))
+for c, col in zip(two, colors):
+    s = cmp.loc[cmp["Category"] == c, "Sales"]
+    sns.histplot(s, bins=45, log_scale=True, stat="density", color=col, alpha=0.55, ax=ax, label=f"{c} — typical sale ${s.median():,.0f}")
+    ax.axvline(s.median(), color=col, ls="--", lw=2)
+ax.set(title="How big is one sale?  (further right = bigger sale; dashed line = the typical sale)", xlabel="Sale value per line ($, log scale)", ylabel="")
+ax.set_yticks([]); ax.legend(frameon=False)
+plt.tight_layout(); plt.show()
+''')
+    code(r'''
+from scipy import stats
+
+tech = cmp.loc[cmp["Category"] == "Technology", "Sales"]
+off  = cmp.loc[cmp["Category"] == "Office Supplies", "Sales"]
+U, p_size = stats.mannwhitneyu(tech, off)
+p_bigger = U / (len(tech) * len(off))
+chi2, p_hv, _, _ = stats.chi2_contingency(pd.crosstab(cmp["Category"], cmp["high_value"]))
+show_p = lambda p: "below 0.001" if p < 0.001 else f"{p:.3f}"
+
+t, o = h2h["Technology"], h2h["Office Supplies"]
+print("WHAT THE COMPARISON SHOWS")
+print(f"• Technology earns more money (${t['Total revenue ($)']:,.0f} vs ${o['Total revenue ($)']:,.0f}) from far fewer sales ({t['Order lines sold']:,.0f} vs {o['Order lines sold']:,.0f} lines).")
+print(f"• A typical Technology sale is about ${t['Typical (median) sale per line ($)']:,.0f}; a typical Office Supplies sale is only ${o['Typical (median) sale per line ($)']:,.0f}.")
+print(f"• {t['High-value lines (%)']:.0f}% of Technology lines are high-value, against {o['High-value lines (%)']:.0f}% of Office Supplies lines.")
+print(f"• Both are growing: Technology {t['Growth 2015 → 2018 (%)']:+.0f}% and Office Supplies {o['Growth 2015 → 2018 (%)']:+.0f}% between 2015 and 2018.")
+print("\nIS THE DIFFERENCE REAL, OR LUCK?")
+print(f"• Pick one random Technology sale and one random Office Supplies sale: Technology is the bigger one in {p_bigger:.0%} of such pairs (50% would mean no difference). Mann-Whitney test p-value: {show_p(p_size)}.")
+print(f"• Share of high-value lines differs too (chi-square test p-value: {show_p(p_hv)}).")
+print("• A p-value below 0.05 means the gap is very unlikely to be chance. Here it is far below that.")
+''')
+    md(r'''
+**In plain words**
+* **Technology = few, big sales.** Each sale is large, so a small number of sales brings in the most money.
+* **Office Supplies = many, small sales.** Customers buy these all the time, but each sale is small — it is the volume and the steady growth that matter.
+* **Why it helps the business:** the two need different treatment. Technology orders deserve priority handling and stock planning because each one is worth a lot; Office Supplies is how the store keeps customers coming back and keeps growing.
+* **Link to our other results:** this is exactly why `Category` and `Sub-Category` are the strongest predictors in the classification section — *what* is bought decides how big the sale is.
+''')
+    md(r'''
+**What happened, step by step — and what changed**
+1. **Source:** the Superstore file (section 1) — one row per product line on an order.
+2. **Cleaning (section 3):** 1 duplicate removed, 11 missing ZIP codes filled, dates and ZIP codes given the right type, 9 helper columns added (the raw file's `Sales` values were not altered).
+3. **Split:** only the `Category` column was used to put each row into *Technology* or *Office Supplies* — Furniture was left out to keep the comparison two-sided and simple.
+4. **Measure:** the same eight measures were calculated for each group (table above) and drawn as charts.
+5. **Test:** two statistical tests confirmed the gap is not luck.
+6. **Result:** Technology = few, big sales; Office Supplies = many, small sales — a difference in *kind*, not just size.
 ''')

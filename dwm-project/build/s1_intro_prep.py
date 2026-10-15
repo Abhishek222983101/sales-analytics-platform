@@ -20,7 +20,7 @@ def add(md, code, fallback_csv):
 | 2 | Web scraping | Collecting external data |
 | 3 | Data pre-processing | Cleaning, imputation, outliers, encoding, scaling |
 | 4 | Star schema & OLAP | **Data warehousing** — fact/dimension tables, roll-up, drill-down, slice, dice |
-| 5 | Exploratory data analysis | Visual analysis |
+| 5 | Exploratory data analysis | Visual analysis + a head-to-head comparison of two product groups |
 | 6 | Classification | Decision tree, Random Forest, Logistic Regression, KNN, Naive Bayes, XGBoost |
 | 7 | Regression | Linear / Ridge / Tree / Forest / XGBoost + time-series forecast |
 | 8 | Clustering | K-Means, Hierarchical, RFM customer segmentation |
@@ -126,7 +126,7 @@ raw[["Sales"]].describe().T
 ''')
     md(r'''
 **Reading the summary:** there is *only one* numeric measure (`Sales`) — no quantity, discount or profit. That shapes every model below:
-we can analyse **revenue**, not margin. Also note the huge gap between the median and the maximum sale: the distribution is extremely skewed (we deal with that in pre-processing).
+we can analyse **revenue**, not margin. Also note the huge gap between the median and the maximum sale: the distribution is extremely skewed (we deal with that in pre-processing). *(Q3 reads $210.61 here because this is the raw file; once section 3 removes one duplicate row it becomes $210.57, and that cleaned value is used from then on.)*
 ''')
 
     # ------------------------------------------------------------------ 2
@@ -300,7 +300,7 @@ print("Example (leading zero restored):", df.loc[missing_mask, "Postal Code"].il
 
     md(r'''
 ### 3.4 Duplicate records
-A record that is identical in *every* business field (order, product, customer, place, sales) is almost certainly a double entry. `Row ID` is just a counter, so we ignore it when comparing.
+A record that is identical in *every* business field (order, product, customer, place, sales) is *probably* a double entry (caution: there is no Quantity column, so two identical rows could also mean two units — either way it is 1 row out of 9,800, so no result is affected). `Row ID` is just a counter, so we ignore it when comparing.
 ''')
     code(r'''
 biz_cols = [c for c in df.columns if c != "Row ID"]

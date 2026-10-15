@@ -205,7 +205,9 @@ for s in [0.10, 0.05, 0.03, 0.02, 0.01, 0.005]:
     lens = fi["itemsets"].apply(len)
     sens.append({"min_support": s, "≈ orders": int(round(s * N)), "1-itemsets": int((lens == 1).sum()),
                  "2-itemsets": int((lens == 2).sum()), "3-itemsets": int((lens == 3).sum()), "total": len(fi)})
-pd.DataFrame(sens).set_index("min_support")
+sens_df = pd.DataFrame(sens)
+sens_df["min_support"] = sens_df["min_support"].map("{:.1%}".format)      # 0.5% must not display as 0.01
+sens_df.set_index("min_support")
 ''')
     code(r'''
 MIN_SUPPORT = 0.01          # an itemset must appear in at least ~1% of orders (≈ 49 orders)
@@ -362,7 +364,7 @@ summary = pd.DataFrame([
                            f"{int(clean['is_outlier'].sum()):,} outliers flagged and log-transformed (skew {clean['Sales'].skew():.1f} → {clean['log_sales'].skew():.1f})"),
     ("Star schema / OLAP", f"1 fact table ({len(fact_sales):,} rows) + 5 dimensions; 0 FK violations; roll-up, drill-down, slice, dice, pivot queries"),
     ("Classification",     f"6 algorithms compared; top F1 {clf_results.loc[best_clf, 'F1']:.2f} ({best_clf}), ROC-AUC {clf_results.loc[best_clf, 'ROC-AUC']:.2f}; the best {len(tied)} are a statistical tie"),
-    ("Regression",         f"R² {reg_results.loc[best_reg, 'R²']:.2f} on log(Sales) ({best_reg}); monthly revenue forecast: {best_ts} wins the backtest with MAPE {ts_results.loc[best_ts, 'MAPE %']:.1f}%"),
+    ("Regression",         f"R² {reg_results.loc[best_reg, 'R²']:.3f} on log(Sales) ({best_reg}); monthly revenue forecast: {best_ts} wins the backtest with MAPE {ts_results.loc[best_ts, 'MAPE %']:.1f}%"),
     ("Clustering",         f"K-Means k = {best_k} chosen by elbow + silhouette ({sil[ks.index(best_k)]:.2f}); agreement with hierarchical ARI {ari:.2f}"),
     ("Association rules",  f"Apriori at {MIN_SUPPORT:.0%} support → {len(rules)} rules; top lift {rules['lift'].max():.2f}; custom implementation verified against mlxtend"),
 ], columns=["Technique", "Result"])
@@ -372,7 +374,7 @@ summary
     md(r'''
 ### Business insights
 1. **Plan for the year-end peak.** November–December carry a disproportionate share of revenue (see EDA 5.6) — inventory, staffing and marketing should be front-loaded for them.
-2. **Protect the top customers, win back the rest.** Revenue is concentrated in a small share of customers; the *Champions* segment needs retention care, while *At-Risk / Lost* customers are an inexpensive win-back target.
+2. **Protect the top customers, win back the rest.** Revenue is moderately concentrated (the top 20% of customers bring about half of it); the *Champions* segment needs retention care, while *At-Risk / Lost* customers are an inexpensive win-back target.
 3. **Product mix decides the sale size.** Both the EDA and the classifier agree that sub-category is the dominant driver of high-value sales — promote the high-ticket lines.
 4. **Per-resident view reshuffles the geography.** The warehouse + scraped population surface smaller states that out-perform big ones per head (section 4.5 ⑥) — information total-revenue rankings hide.
 5. **Bundle with care.** Basket analysis finds only weak co-purchase patterns; test bundles before rolling them out.
@@ -382,6 +384,8 @@ summary
 * **One retailer, 2015–2018** — patterns may not transfer to other businesses or to today.
 * **Population is from the 2020 Census** while sales are 2015–2018 — a reasonable proxy, not an exact match.
 * Association rules are based on 17 broad sub-categories rather than individual products.
+* The classification and regression models use a random 80/20 split of order *lines*, so lines of the same order can land on both sides. A stricter check that keeps every whole order on one side gave the same accuracy and F1 but a slightly lower ROC-AUC (about 0.83 instead of 0.85) — treat 0.85 as mildly optimistic.
+* The comparison in 5.7 is descriptive: it shows that the two product groups differ, not why.
 
 ### Future work
 Add quantity / discount / cost to the fact table; connect a BI tool (Power BI / Tableau) directly to the star schema; automate the scrape and ETL on a schedule; add customer-churn prediction and next-basket recommendation.

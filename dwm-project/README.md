@@ -18,8 +18,8 @@ Superstore Sales dataset (9,800 order lines, 2015–2018).
 | 2 | **Web scraping** | Wikipedia state populations via `requests` + `pandas.read_html`, with an embedded fallback copy |
 | 3 | **Pre-processing** | Audit, date format detection, imputation (11 ZIPs), duplicate, consistency checks, outliers (IQR), skew + log transform, encoding, scaling, before/after |
 | 4 | **Star schema + OLAP** | 1 fact + 5 dimensions in SQLite with PK/FK, reconciliation checks, roll-up / drill-down / slice / dice / pivot |
-| 5 | **EDA** | Univariate, trends, seasonality heat-map, 80/20 Pareto, relationships, key findings |
-| 6 | **Classification** | 6 algorithms, cross-validation, ROC, confusion matrix, feature importance, decision tree, grid search |
+| 5 | **EDA** | Univariate, trends, seasonality heat-map, Pareto, relationships, key findings, plus a **head-to-head comparison: Technology vs Office Supplies** (data trace → measures → charts → statistical tests) |
+| 6 | **Classification** | The two classes defined (1 = high-value, 0 = standard — like spam / not spam), 6 algorithms, cross-validation, ROC, Random-Forest confusion matrix (counts and %), per-class precision/recall, real example predictions, feature importance, decision tree, grid search |
 | 7 | **Regression** | 5 regressors vs a baseline, plus monthly revenue forecast (XGBoost vs SARIMA) |
 | 8 | **Clustering** | RFM, elbow + silhouette + Davies–Bouldin, K-Means, hierarchical + dendrogram |
 | 9 | **Apriori** | Support / confidence / lift, library + from-scratch implementation verified identical |

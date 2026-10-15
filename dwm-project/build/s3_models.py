@@ -123,6 +123,78 @@ print(f"{best_clf}: of {tp + fn} truly high-value lines it found {tp} ({tp/(tp+f
 * **CV F1** — the same F1 averaged over 5 different train/validation splits; if it is close to the test F1 the model is **not overfitted**.
 ''')
     md(r'''
+### 6.0 The two classes and the confusion matrix — in plain words
+Our classifier answers a **yes / no question** for every order line, exactly the way a spam filter answers "spam or not spam":
+
+| | Spam filter | Our model |
+|---|---|---|
+| What is classified | an email | an order line |
+| **Class 1** — the "yes" we want to catch | spam | **high-value** order line |
+| **Class 0** — the "no" | not spam | **standard** order line |
+| **Where the class lives** (the "class column") | a column such as `spam` = yes / no | the column **`high_value`** (1 = high-value, 0 = standard) — *we created it from `Sales`; it is not in the raw file* |
+
+The **confusion matrix** is a 2 × 2 scoreboard comparing the model's answer with the truth. The matrix drawn above belongs to the model with the highest F1 (Naive Bayes); here is the same scoreboard for the **Random Forest**, the model we explain in the most detail.
+''')
+    code(r'''
+from sklearn.metrics import classification_report
+
+rf_cls = fitted["Random Forest"]
+pred_rf  = rf_cls.predict(X_test)
+proba_rf = rf_cls.predict_proba(X_test)[:, 1]
+cm_rf = confusion_matrix(y_test, pred_rf)
+tn, fp, fn, tp = cm_rf.ravel()
+pct = cm_rf / cm_rf.sum(axis=1, keepdims=True) * 100
+
+print("THE CLASS COLUMN — one label for every order line (we created it from Sales; it is not in the raw file):")
+display(mdl[["Order ID", "Sub-Category", "Sales", "high_value"]].assign(class_name=np.where(mdl["high_value"] == 1, "high-value", "standard")).sample(6, random_state=5))
+print(mdl["high_value"].map({0: "standard", 1: "high-value"}).value_counts().to_string(), "\n")
+
+classes = pd.DataFrame({
+    "class": [0, 1], "name": ["standard", "high-value"],
+    "meaning": [f"sale below ${threshold:,.2f}", f"sale of ${threshold:,.2f} or more"],
+    "orders in the test set": [int((y_test == 0).sum()), int((y_test == 1).sum())],
+}).set_index("class")
+display(classes)
+
+labels = ["standard", "high-value"]
+fig, axes = plt.subplots(1, 2, figsize=(12, 4.6))
+for ax, mat, notes, title in [(axes[0], cm_rf, cm_rf.astype(str), "Number of orders"),
+                              (axes[1], pct, np.vectorize(lambda v: f"{v:.0f}%")(pct), "Share of each ACTUAL class")]:
+    sns.heatmap(mat, annot=notes, fmt="", cmap=sns.light_palette(PALETTE[0], as_cmap=True), cbar=False,
+                xticklabels=labels, yticklabels=labels, annot_kws={"size": 18}, linewidths=2, linecolor="white", ax=ax)
+    ax.set(title=title, xlabel="PREDICTED by the model", ylabel="ACTUAL (the truth)")
+    ax.set_yticklabels(labels, rotation=0, va="center")
+plt.suptitle("Random Forest — confusion matrix", fontweight="bold", y=1.02)
+plt.tight_layout(); plt.show()
+
+print(f"✔ {tn:,} standard orders correctly called standard")
+print(f"✔ {tp:,} high-value orders correctly caught")
+print(f"✘ {fp:,} standard orders wrongly flagged as high-value   (false alarms)")
+print(f"✘ {fn:,} high-value orders missed                        (missed catches)")
+print(f"→ accuracy = ({tn:,} + {tp:,}) / {len(y_test):,} = {(tn + tp) / len(y_test):.1%}\n")
+print(classification_report(y_test, pred_rf, target_names=["standard (0)", "high-value (1)"], digits=3))
+''')
+    md(r'''
+**Reading the numbers like a spam filter**
+* **Precision (high-value):** of the orders the model *flagged* as high-value, how many really are?
+* **Recall (high-value):** of all the *real* high-value orders, how many did the model catch?
+* **Accuracy:** the share of all orders it got right. Careful: always answering "standard" would already score 75%, so precision and recall for the high-value class tell the real story.
+''')
+    md(r'''
+**Real examples from the test set** — what the model said, what was true, and how sure it was (`P(high-value)` is its probability for class 1):
+''')
+    code(r'''
+ex = mdl.loc[X_test.index, ["Order ID", "Sub-Category", "Segment", "Region", "Sales"]].copy()
+ex["actual"]        = np.where(y_test == 1, "high-value", "standard")
+ex["model says"]    = np.where(pred_rf == 1, "high-value", "standard")
+ex["P(high-value)"] = proba_rf.round(2)
+cases = [("high-value", "high-value", "✔ caught"), ("standard", "standard", "✔ correct"),
+         ("standard", "high-value", "✘ false alarm"), ("high-value", "standard", "✘ missed")]
+examples = pd.concat([ex[(ex["actual"] == a) & (ex["model says"] == m)].sample(2, random_state=3).assign(outcome=label)
+                      for a, m, label in cases])
+examples.reset_index(drop=True)
+''')
+    md(r'''
 ### 6.1 Which features matter?
 Random Forests measure how much each feature reduces impurity. Because one-hot encoding splits a category like Sub-Category into 17 columns, we **add them back together** to get one importance per original feature.
 ''')
@@ -234,7 +306,7 @@ for name, model in regressors.items():
 
 reg_results = pd.DataFrame(rows).set_index("model").sort_values("R²", ascending=False)
 best_reg = reg_results.index[0]
-reg_results.round(3)
+reg_results.style.format("{:,.3f}")
 ''')
     code(r'''
 fig, axes = plt.subplots(1, 3, figsize=(17, 4.8))
@@ -254,7 +326,7 @@ plt.tight_layout(); plt.show()
 ''')
     code(r'''
 best_r2 = reg_results.loc[best_reg, "R²"]
-print(f"Best regressor: {best_reg} with R² = {best_r2:.2f} → the features explain about {best_r2:.0%} of the variation in (log) sale size.")
+print(f"Best regressor: {best_reg} with R² = {best_r2:.3f} → the features explain about {best_r2 * 100:.1f}% of the variation in (log) sale size.")
 base_mae = reg_results.loc["Baseline (always the mean)", "MAE ($)"]
 print(f"In dollars, the average miss falls from ${base_mae:,.0f} (baseline) to ${reg_results.loc[best_reg, 'MAE ($)']:,.0f} — a "
       f"{1 - reg_results.loc[best_reg, 'MAE ($)'] / base_mae:.0%} improvement; in log terms the typical error is a factor of "
