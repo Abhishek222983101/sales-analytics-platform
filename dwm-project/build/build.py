@@ -18,7 +18,7 @@ HERE = Path(__file__).resolve().parent
 OUT_DIR = HERE.parent
 sys.path.insert(0, str(HERE))
 
-import s1_intro_prep, s2_warehouse_eda, s3_models, s4_mining_wrap  # noqa: E402
+import s1_intro_prep, s2_warehouse_eda, s3_models, s4_mining_wrap, s5_live  # noqa: E402
 
 WIKI_URL = "https://en.wikipedia.org/wiki/List_of_U.S._states_and_territories_by_population"
 US_STATES = [
@@ -56,13 +56,18 @@ def md(text: str):
 
 
 def code(text: str):
-    cells.append(nbf.v4.new_code_cell(text.strip("\n")))
+    cell = nbf.v4.new_code_cell(text.strip("\n"))
+    if text.lstrip().startswith("#@title"):
+        cell.metadata["cellView"] = "form"        # Colab shows these cells as a form (dropdowns / sliders / boxes)
+    cells.append(cell)
 
 
 s1_intro_prep.add(md, code, scrape_fallback_csv())
 s2_warehouse_eda.add(md, code)
 s3_models.add(md, code)
 s4_mining_wrap.add(md, code)
+STATES = sorted(pd.read_csv(HERE.parent.parent / "data" / "sample_superstore.csv")["State"].unique())
+s5_live.add(md, code, STATES)
 
 nb = nbf.v4.new_notebook()
 nb["cells"] = cells

@@ -27,6 +27,7 @@ def add(md, code, fallback_csv):
 | 9 | Association rules | **Apriori** (library + from scratch) |
 | 10 | Bonus | Anomaly detection + live web app |
 | 11 | Conclusions | Results, insights, limitations |
+| 12 | **Live demo** | Change inputs (a row, a new order, the class cut-off, two groups) and watch the results change |
 
 ## 🎯 Problem statement
 A retail business records every sale but cannot easily see *what happened, why, what will happen, and what to do about it*.

@@ -25,6 +25,7 @@ Superstore Sales dataset (9,800 order lines, 2015–2018).
 | 9 | **Apriori** | Support / confidence / lift, library + from-scratch implementation verified identical |
 | 10 | Bonus | Anomaly detection (Isolation Forest) + link to the live web app |
 | 11 | Conclusions | Results table, business insights, limitations, references |
+| 12 | **Live demo** | Forms you can change and re-run: look up any row, predict a brand-new order, redefine the class cut-off, compare any two groups |
 
 ## Run it in Google Colab
 1. Open <https://colab.research.google.com> → **File ▸ Upload notebook** → choose `DWM_Sales_Analytics.ipynb`
