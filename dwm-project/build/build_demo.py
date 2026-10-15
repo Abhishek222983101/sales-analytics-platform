@@ -182,6 +182,21 @@ print("\nHow many rows carry each label:")
 print(labelled["LABEL"].value_counts().to_string())
 ''')
 
+md(r'''
+**The whole labelled dataset.** Every one of the 9,799 rows has a label. The table below is all of them, with the price (`Sales`) beside the label so you can see the rule at work. In Colab, click the small **table icon** at the top-right of the output to scroll through all rows, sort, and **filter by LABEL**. Colab also saves it as a file, `labelled_orders.csv` (open the 📁 Files pane on the left and double-click it).
+''')
+code(r'''
+labelled_all = df[["Row ID", "Order ID", "Order Date", "Category", "Sub-Category", "Segment", "Region", "Ship Mode", "Sales", "class_name"]].rename(columns={"class_name": "LABEL"})
+try:
+    import google.colab                           # this import only works inside Google Colab
+    labelled_all.to_csv("labelled_orders.csv", index=False)
+    print("Saved labelled_orders.csv — open the 📁 Files pane on the left and double-click it to see the LABEL column in the file itself.\n")
+except ImportError:
+    pass
+print(f"ALL {len(labelled_all):,} rows, each with its LABEL in the last column:  standard = {int((labelled_all['LABEL'] == 'standard').sum()):,}  ·  high-value = {int((labelled_all['LABEL'] == 'high-value').sum()):,}")
+labelled_all
+''')
+
 # ====================================================================== 3. proof
 md(r'''
 ## 3. The proof — can a model predict the class?
